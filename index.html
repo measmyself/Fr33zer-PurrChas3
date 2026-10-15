@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fr33zer PurrChas3 — Barks &amp; Meows Only</title>
+<meta name="description" content="A placed freezer, stocked and maintained by us, in your shop. Cold chain held end to end.">
+<style>
+:root{
+  --bg:#060911; --surface:#0e1526; --surface-2:#131c31;
+  --cyan:#38bdf8; --ice:#7dd3fc; --navy-deep:#030712;
+  --emerald:#10b981; --amber:#f59e0b; --pink:#ff2a8d;
+  --white:#f0fdfa; --muted:#94a3b8; --line:#1e2b45;
+  --maxw:1080px;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0; background:var(--bg); color:var(--white);
+  font:16px/1.65 ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  background-image:
+    radial-gradient(1100px 520px at 78% -8%, rgba(56,189,248,.16), transparent 62%),
+    radial-gradient(760px 420px at 4% 8%, rgba(255,42,141,.09), transparent 60%);
+  background-attachment:fixed;
+}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 16px}
+a{color:var(--ice)}
+
+/* ---- header ---- */
+header{border-bottom:1px solid var(--line);background:rgba(3,7,18,.72);position:sticky;top:0;z-index:5;backdrop-filter:blur(8px)}
+.bar{display:flex;align-items:center;gap:14px;min-height:64px;flex-wrap:wrap}
+.mark{font-weight:800;letter-spacing:.06em;font-size:1.05rem;white-space:nowrap}
+.mark b{color:var(--cyan)}
+.bar nav{margin-left:auto;display:flex;gap:18px;flex-wrap:wrap}
+.bar nav a{color:var(--muted);text-decoration:none;font-size:.92rem}
+.bar nav a:hover{color:var(--white)}
+
+/* ---- hero ---- */
+.hero{padding:76px 0 56px}
+.kicker{
+  display:inline-block;font-size:.74rem;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--cyan);border:1px solid rgba(56,189,248,.34);border-radius:999px;
+  padding:5px 13px;margin-bottom:20px;
+}
+h1{font-size:clamp(2.1rem,6vw,3.5rem);line-height:1.07;margin:0 0 18px;letter-spacing:-.02em}
+h1 em{font-style:normal;color:var(--cyan)}
+.lede{font-size:clamp(1.02rem,2.3vw,1.2rem);color:#cbd5e1;max-width:62ch;margin:0 0 30px}
+.cta{display:flex;gap:12px;flex-wrap:wrap}
+.btn{
+  display:inline-block;padding:12px 22px;border-radius:10px;text-decoration:none;
+  font-weight:650;font-size:.95rem;border:1px solid transparent;
+}
+.btn-main{background:var(--cyan);color:var(--navy-deep)}
+.btn-main:hover{background:var(--ice)}
+.btn-ghost{border-color:var(--line);color:var(--white)}
+.btn-ghost:hover{border-color:var(--cyan)}
+
+/* ---- sections ---- */
+section{padding:56px 0;border-top:1px solid var(--line)}
+h2{font-size:clamp(1.4rem,3.4vw,2rem);margin:0 0 10px;letter-spacing:-.01em}
+.sub{color:var(--muted);margin:0 0 30px;max-width:62ch}
+
+.grid{display:grid;gap:18px;grid-template-columns:repeat(auto-fit,minmax(248px,1fr))}
+.card{
+  background:linear-gradient(180deg,var(--surface),var(--surface-2));
+  border:1px solid var(--line);border-radius:14px;padding:22px;
+}
+.card h3{margin:0 0 8px;font-size:1.04rem;color:var(--white)}
+.card p{margin:0;color:var(--muted);font-size:.93rem}
+.card .num{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:30px;height:30px;border-radius:8px;margin-bottom:12px;
+  background:rgba(56,189,248,.12);color:var(--cyan);font-weight:700;font-size:.88rem;
+}
+
+/* ---- pack ---- */
+.packs{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(170px,1fr))}
+.pack{border:1px solid var(--line);border-radius:12px;padding:20px;text-align:center;background:var(--surface)}
+.pack .sz{font-size:1.75rem;font-weight:800;color:var(--ice);line-height:1.1}
+.pack .ct{color:var(--muted);font-size:.86rem;margin-top:6px}
+
+.note{
+  margin-top:26px;border-left:3px solid var(--amber);
+  background:rgba(245,158,11,.07);padding:14px 18px;border-radius:0 10px 10px 0;
+  color:#e2e8f0;font-size:.92rem;
+}
+
+footer{border-top:1px solid var(--line);padding:34px 0;color:var(--muted);font-size:.87rem}
+footer a{color:var(--muted)}
+
+@media (prefers-reduced-motion:no-preference){
+  .card{transition:border-color .18s ease, transform .18s ease}
+  .card:hover{border-color:rgba(56,189,248,.45);transform:translateY(-2px)}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap bar">
+    <span class="mark">Fr33zer <b>PurrChas3</b></span>
+    <nav>
+      <a href="#how">How it works</a>
+      <a href="#packs">Packs</a>
+      <a href="#shops">For shops</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<div class="wrap hero">
+  <span class="kicker">Barks &amp; Meows Only</span>
+  <h1>Our freezer.<br>Your floor.<br><em>Cold the whole way.</em></h1>
+  <p class="lede">
+    Fr33zer PurrChas3 places a freezer in your shop, keeps it stocked, and holds
+    the cold chain from our kitchen to your customer's bag. You give it floor
+    space. We handle the rest.
+  </p>
+  <div class="cta">
+    <a class="btn btn-main" href="#contact">Talk to us about a placement</a>
+    <a class="btn btn-ghost" href="#how">See how it works</a>
+  </div>
+</div>
+
+<section id="how">
+  <div class="wrap">
+    <h2>How a placement works</h2>
+    <p class="sub">Four steps, and only one of them is yours.</p>
+    <div class="grid">
+      <div class="card">
+        <span class="num">1</span>
+        <h3>We measure your floor</h3>
+        <p>Width, depth, height, and the doorway the cabinet has to pass through. The unit is chosen to fit the shop, not the other way round.</p>
+      </div>
+      <div class="card">
+        <span class="num">2</span>
+        <h3>We place the freezer</h3>
+        <p>A glass-door merchandising unit rated for a frozen hold, with a digital exterior display so the temperature is readable without opening the door.</p>
+      </div>
+      <div class="card">
+        <span class="num">3</span>
+        <h3>We stock and restock</h3>
+        <p>Product arrives frozen and goes straight in. Restock cadence is set by what actually moves in your shop.</p>
+      </div>
+      <div class="card">
+        <span class="num">4</span>
+        <h3>You sell it</h3>
+        <p>Your counter, your customers. Terms are agreed per shop before anything is delivered.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="packs">
+  <div class="wrap">
+    <h2>Packs are counted, not weighed</h2>
+    <p class="sub">
+      Every pack is a count of cubes. A cube is a cube — so what a customer picks
+      up off the shelf is the same portion every time, and restock is countable
+      at a glance.
+    </p>
+    <div class="packs">
+      <div class="pack"><div class="sz">4</div><div class="ct">cubes &middot; 1 lb</div></div>
+      <div class="pack"><div class="sz">12</div><div class="ct">cubes &middot; 3 lb</div></div>
+      <div class="pack"><div class="sz">20</div><div class="ct">cubes &middot; 5 lb</div></div>
+    </div>
+    <div class="note">
+      Cube dimensions and mold sourcing are still being finalised. Pack counts
+      above are fixed; the cube spec is not yet final.
+    </div>
+  </div>
+</section>
+
+<section id="shops">
+  <div class="wrap">
+    <h2>For shop owners</h2>
+    <p class="sub">What you are actually agreeing to.</p>
+    <div class="grid">
+      <div class="card">
+        <h3>Floor space and power</h3>
+        <p>A merchandising freezer needs a footprint, clearance, and a dedicated outlet. We confirm all three on site before anything ships.</p>
+      </div>
+      <div class="card">
+        <h3>No cold-chain burden</h3>
+        <p>You are not receiving, tempering, or re-freezing anything. Product arrives frozen and goes into a unit already holding temperature.</p>
+      </div>
+      <div class="card">
+        <h3>Terms in writing</h3>
+        <p>Placement terms, restock cadence and commercial arrangement are agreed per shop and put in writing before delivery. No handshake deals.</p>
+      </div>
+      <div class="card">
+        <h3>Pilot first</h3>
+        <p>The programme opens as a small pilot. Early shops shape how it runs, and we would rather get three right than thirty wrong.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="wrap">
+    <h2>Talk to us</h2>
+    <p class="sub">
+      If you run a shop and want to know whether your floor fits, get in touch
+      and we will come and measure it.
+    </p>
+    <p><a class="btn btn-main" href="mailto:barksandmeowsonly@gmail.com?subject=Fr33zer%20PurrChas3%20placement">Email us about a placement</a></p>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    Fr33zer PurrChas3 &mdash; a Barks &amp; Meows Only programme.
+    <a href="https://barksandmeowsonly.com">barksandmeowsonly.com</a>
+  </div>
+</footer>
+
+</body>
+</html>
