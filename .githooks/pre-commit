@@ -1,0 +1,105 @@
+#!/bin/bash
+# Fr33zer-PurrChas3 -- copy gate. VERSIONED hook; lives in the repo.
+#
+# Ported 2026-10-15 by Ch1ef 0f Staff from .git/hooks/pre-commit, on His
+# Majesty's go. The original worked and is still the logic below; its defect was
+# location. .git/hooks/ is not versioned, so the gate guarded ONE working copy
+# and a fresh clone -- or GitHub Pages building straight from the repo -- had no
+# gate at all. That was the last surface where this constraint had no machine
+# enforcement at write time.
+#
+# THIS FILE CARRIES NO PATTERNS, AND THAT IS DELIBERATE.
+#   This repo is PUBLIC (measmyself/Fr33zer-PurrChas3). Committing the old hook
+#   verbatim would have published the ban list: supplier names, and the exact
+#   efficacy strings we avoid. The gate would have leaked what it protects. So
+#   every pattern is read LIVE from two private files at commit time:
+#     - Ch1ef's own set  (price / vendor / efficacy)
+#     - Squar3Spac3's Barks phrase list (never copied; it is hers and a copy drifts)
+#   A clone on a machine that cannot see those files CANNOT COMMIT. That is
+#   correct, not a bug: only our boxes write this repo.
+#
+# Install in a fresh clone:  ./.githooks/install.sh
+#
+# Fails CLOSED. A gate that exits 0 when it cannot see is the deleted-floor
+# failure shape and we have already paid for that once.
+#
+# Escape hatch: git commit --no-verify -- a RULING, not a convenience.
+
+set -uo pipefail
+
+PATTERNS="/home/nessuno/Projects/Ch1ef-of-Staff/gates/fr33zer-copy-gate-patterns.tsv"
+BARKS="/home/nessuno/Projects/Barks And Me0ws/Squar3Spac3"
+PHRASES="$BARKS/phrases.txt"
+EXCEPTIONS="$BARKS/blocked-phrase-exceptions.tsv"
+
+RED=$'\033[31m'; YEL=$'\033[33m'; OFF=$'\033[0m'
+
+die_loud() {
+    printf '%s\n' "${RED}COPY GATE: BLOCKED -- cannot verify, so nothing ships.${OFF}" >&2
+    printf '  %s\n' "$1" >&2
+    printf '%s\n' "  This gate fails closed on purpose. Fix the cause, or" >&2
+    printf '%s\n' "  'git commit --no-verify' if you are Ch1ef and ruling on it." >&2
+    exit 1
+}
+
+[ -r "$PATTERNS" ] || die_loud "unreadable pattern file: $PATTERNS"
+[ -r "$PHRASES" ]  || die_loud "unreadable blocked-phrase list: $PHRASES"
+
+GIT_DIR=$(git rev-parse --git-dir)
+rm -f "$GIT_DIR/.gate-hit-yes" "$GIT_DIR/.gate-hit-no"
+
+# Only files being committed, only text we treat as customer-facing.
+FILES=$(git diff --cached --name-only --diff-filter=ACM \
+        | grep -Ei '\.(html?|md|css|js|json|txt|svg)$' || true)
+[ -n "$FILES" ] && echo "COPY GATE: checking $(printf '%s\n' "$FILES" | wc -l) staged file(s)"
+
+scan() {  # scan <label> <regex> <blocking?>
+    local label="$1" re="$2" blocking="$3" f hits
+    printf '%s\n' "$FILES" | while IFS= read -r f; do
+        [ -n "$f" ] || continue
+        hits=$(git show ":$f" 2>/dev/null \
+               | sed -E 's/secureUrl//g; s/secure/__/g; s/provenance/__/g' \
+               | grep -nEi "$re" || true)
+        if [ -n "$hits" ]; then
+            if [ "$blocking" = yes ]; then
+                printf '%s\n' "${RED}BLOCKED [$label] $f${OFF}" >&2
+            else
+                printf '%s\n' "${YEL}REVIEW  [$label] $f${OFF}" >&2
+            fi
+            printf '%s\n' "$hits" | sed 's/^/    /' >&2
+            echo x >> "$GIT_DIR/.gate-hit-$blocking"
+        fi
+    done
+}
+
+if [ -n "$FILES" ]; then
+    # Ch1ef's set: price / vendor / efficacy.
+    loaded=0
+    while IFS=$'\t' read -r re label blocking; do
+        case "$re" in ''|'#'*) continue ;; esac
+        scan "${label:-unlabelled}" "$re" "${blocking:-yes}"
+        loaded=$((loaded + 1))
+    done < "$PATTERNS"
+    [ "$loaded" -gt 0 ] || die_loud "pattern file loaded ZERO patterns: $PATTERNS"
+
+    # The Barks list, read live. Each line is <regex>\t<scope note>.
+    while IFS=$'\t' read -r re note; do
+        case "$re" in ''|'#'*) continue ;; esac
+        scan "barks: ${note:-blanket}" "$re" yes
+    done < "$PHRASES"
+fi
+
+if [ -f "$GIT_DIR/.gate-hit-yes" ]; then
+    fail=$(wc -l < "$GIT_DIR/.gate-hit-yes")
+    rm -f "$GIT_DIR/.gate-hit-yes"
+    printf '\n%s\n' "${RED}COPY GATE: $fail file/pattern hit(s) -- commit BLOCKED.${OFF}" >&2
+    printf '%s\n' "  This repo is PUBLIC. Nothing customer-facing carries a price," >&2
+    printf '%s\n' "  a vendor name, the placement fee, or an efficacy claim." >&2
+    printf '%s\n' "  A hit that is honest copy is a SCOPE decision, not a rewrite:" >&2
+    printf '%s\n' "  route it to Ch1ef 0f Staff, who owns $EXCEPTIONS." >&2
+    printf '%s\n' "  Override only with a ruling: git commit --no-verify" >&2
+    exit 1
+fi
+
+echo "COPY GATE: clean."
+exit 0
